@@ -15,6 +15,12 @@ other variants):
 1 555 555 5555
 */
 
+/**
+ * Main method.
+ *
+ * @param {string} str string to be checked.
+ */
+
 function telephoneCheck(str) {
   let regex = /(1{0,1}\s{0,1})(([(]\d{3}[)])|(\d{3}))(-|\s){0,1}(\d{3})(-|\s){0,1}(\d{4})/gi;
   let phoneMatched = str.match(regex);

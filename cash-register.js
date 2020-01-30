@@ -40,15 +40,37 @@ const VALUES = {
   PENNY: 0.01
 };
 
+/**
+ * Auxiliar method to round numbers.
+ *
+ * @param {number} number number to be fixed round 2.
+ */
+
 const fixChange = number => {
   return parseFloat(number).toFixed(2);
 };
 
-const convertArrayToObject = (array, values) => {
+/**
+ * Convert arrays to map object.
+ *
+ * @param {object} values array to be converted to a map object.
+ */
+
+const convertArrayToObject = values => {
+  let array = {};
+
   values.forEach(data => {
     array[data[0]] = data[1];
   });
+
+  return array;
 };
+
+/**
+ * Sum owned money.
+ *
+ * @param {object} values array to be reduced.
+ */
 
 const evaluateOwning = values => {
   let sum = values.reduce((sum, obj) => {
@@ -58,28 +80,22 @@ const evaluateOwning = values => {
   return fixChange(sum);
 };
 
-const checkChanges = (output, change, owning) => {
-  if (change > 0) {
-    output["status"] = "INSUFFICIENT_FUNDS";
-    output["change"] = [];
-  } else if (owning) {
-    output["status"] = "CLOSED";
-    output["change"] = output["change"].reverse();
-  } else {
-    output["status"] = "OPEN";
-  }
-};
+/**
+ * Main method.
+ *
+ * @param {number} price
+ * @param {number} cash
+ * @param {object} cid
+ */
 
 function checkCashRegister(price, cash, cid) {
-  var cidObj = {};
+  var cidObj = convertArrayToObject(cid);
   var change = parseFloat(cash - price).toFixed(2);
   var owning = evaluateOwning(cid) === change;
   var output = {
     status: "",
     change: []
   };
-
-  convertArrayToObject(cidObj, cid);
 
   Object.keys(VALUES).forEach(key => {
     var value = VALUES[key];
@@ -103,7 +119,15 @@ function checkCashRegister(price, cash, cid) {
     }
   });
 
-  checkChanges(output, change, owning);
+  if (change > 0) {
+    output["status"] = "INSUFFICIENT_FUNDS";
+    output["change"] = [];
+  } else if (owning) {
+    output["status"] = "CLOSED";
+    output["change"] = output["change"].reverse();
+  } else {
+    output["status"] = "OPEN";
+  }
 
   return output;
 }

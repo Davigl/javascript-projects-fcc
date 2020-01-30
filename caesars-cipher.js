@@ -11,6 +11,12 @@ All letters will be uppercase. Do not transform any non-alphabetic character
 (i.e. spaces, punctuation), but do pass them on.
 */
 
+/**
+ * It returns the corrected rotated charcode.
+ *
+ * @param {number} charCode letter ascii number
+ */
+
 const rotate = charCode => {
   let output = charCode;
 
@@ -20,8 +26,14 @@ const rotate = charCode => {
     return rotatedChar;
   }
 
-  return charCode;
+  return output;
 };
+
+/**
+ * Main method.
+ *
+ * @param {} str string to be rotated.
+ */
 
 function rot13(str) {
   let regex = /[A-Z]/;
